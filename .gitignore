@@ -361,3 +361,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Firebase secret key
+serviceAccountKey.json
