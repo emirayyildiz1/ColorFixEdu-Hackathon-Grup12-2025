@@ -1,3 +1,4 @@
+// 🔹 Mevcut motivasyon popup kodları:
 const messages = [
     "Her gün bir adım daha ileri!",
     "Bugün en güçlü halinle başla!",
@@ -61,6 +62,7 @@ function showPopup() {
 
 setInterval(showPopup, 4000);
 
+// 🔹 Firebase bağlantısı ve kayıt işlemi:
 const firebaseConfig = {
     apiKey: "AIzaSyA8ht2vwuc15a8cqQJxpiLCqxRUPYRoCGQ",
     authDomain: "colorfixedu.firebaseapp.com",
@@ -70,9 +72,11 @@ const firebaseConfig = {
     appId: "1:700457303779:web:fe22964b328816de7a0fd6"
 };
 
+// Firebase başlat
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Kayıt formu yakalama
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("registerForm");
     if (form) {
