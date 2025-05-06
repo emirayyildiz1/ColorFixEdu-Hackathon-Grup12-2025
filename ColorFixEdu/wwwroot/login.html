@@ -1,21 +1,23 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>ColorFixEdu - Giriş</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDK'ları -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <header>
-        ColorFixEdu
-    </header>
+    <header>ColorFixEdu</header>
 
     <div class="login-container">
         <h2>ColorFixEdu'ya Hoş Geldiniz</h2>
-        <form action="dashboard.html" method="get">
-            <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-            <input type="password" name="password" placeholder="Şifre" required>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Kullanıcı Adı" required>
+            <input type="password" id="password" placeholder="Şifre" required>
             <button type="submit">Giriş Yap</button>
         </form>
         <div class="register-link">
@@ -23,6 +25,50 @@
         </div>
     </div>
 
-    <script src="script.js" defer></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8ht2vwuc15a8cqQJxpiLCqxRUPYRoCGQ",
+            authDomain: "colorfixedu.firebaseapp.com",
+            projectId: "colorfixedu",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            db.collection("users").get().then((querySnapshot) => {
+                let found = false;
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.username === username && data.password === password) {
+                        found = true;
+                        const uid = doc.id;
+
+                        // Kullanıcı ID'sini localStorage'a kaydet
+                        localStorage.setItem("userId", uid);
+                        localStorage.setItem("username", username);
+
+                        // Login zamanını güncelle
+                        db.collection("users").doc(uid).update({
+                            login_time: new Date().toUTCString()
+                        });
+
+                        alert("Giriş başarılı!");
+                        window.location.href = "dashboard.html";
+                    }
+                });
+                if (!found) {
+                    alert("Kullanıcı adı veya şifre yanlış.");
+                }
+            }).catch((error) => {
+                alert("Hata: " + error.message);
+            });
+        });
+    </script>
 </body>
 </html>
