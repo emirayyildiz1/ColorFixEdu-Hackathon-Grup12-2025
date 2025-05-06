@@ -1,4 +1,4 @@
-async function sendMessage() {
+function sendMessage() {
     const userInput = document.getElementById('userInput').value;
     if (userInput.trim() !== "") {
         const chatBox = document.getElementById('chatBox');
@@ -10,27 +10,10 @@ async function sendMessage() {
 
         const botMessage = document.createElement('div');
         botMessage.classList.add('chat-message', 'bot-message');
-        botMessage.innerHTML = `<p><strong>Bot:</strong> Yazıyor...</p>`;
+        botMessage.innerHTML = `<p><strong>Bot:</strong> Merhaba! Size nasıl yardımcı olabilirim?</p>`;
         chatBox.appendChild(botMessage);
 
         document.getElementById('userInput').value = '';
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        try {
-            const response = await fetch('/ask', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message: userInput })
-            });
-
-            const data = await response.json();
-            botMessage.innerHTML = `<p><strong>Bot:</strong> ${data.reply}</p>`;
-        } catch (error) {
-            botMessage.innerHTML = `<p><strong>Bot:</strong> Bir hata oluştu.</p>`;
-            console.error("Hata:", error);
-        }
 
         chatBox.scrollTop = chatBox.scrollHeight;
     }
