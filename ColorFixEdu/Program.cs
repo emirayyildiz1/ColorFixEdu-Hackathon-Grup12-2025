@@ -1,7 +1,11 @@
 using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -14,10 +18,12 @@ app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+
 app.MapGet("/", async context =>
 {
     context.Response.Redirect("/index.html");
 });
+
 
 app.MapPost("/api/chat", async (HttpContext context) =>
 {
@@ -25,6 +31,12 @@ app.MapPost("/api/chat", async (HttpContext context) =>
     var userMessage = await reader.ReadToEndAsync();
 
     var apiKey = builder.Configuration["OpenAI:ApiKey"];
+    if (string.IsNullOrEmpty(apiKey))
+    {
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("API anahtarı yapılandırılmadı.");
+        return;
+    }
 
     var requestBody = new
     {
