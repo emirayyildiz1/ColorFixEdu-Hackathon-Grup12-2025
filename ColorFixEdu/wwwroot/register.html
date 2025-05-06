@@ -1,26 +1,27 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kayıt Ol</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <header>Üye Ol</header>
-
+    <header>
+        ColorFixEdu
+    </header>
     <div class="register-container">
-        <h2>Hesap Oluştur</h2>
-        <form>
-            <input type="text" placeholder="Kullanıcı Adı" required>
-            <input type="password" placeholder="Şifre" required>
+        <h2>Kayıt Ol</h2>
+        <form id="registerForm">
+            <input type="text" id="username" placeholder="Kullanıcı Adı" required />
+            <input type="password" id="password" placeholder="Şifre" required />
             <button type="submit">Kayıt Ol</button>
         </form>
-        <div class="login-link">
-            Zaten üye misiniz? <a href="login.html">Giriş yap</a>
-        </div>
     </div>
 
-    <script src="script.js"></script>
 </body>
 </html>
